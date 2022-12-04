@@ -1,0 +1,83 @@
+{
+    "errors":{
+        "missingArgsTitle":"Onjuiste parameters!",
+        "missingArgsDescription":"Er missen parameters",
+        "noPermsTitle":"Geen permissies!",
+        "noPermsDescription":"Je hebt de `ADMINISTRATOR` permissie nodig of je moet in de lijst van toegestane users staan!",
+        "noPermsDelete":"Alleen admins kunnen een ticket verwijderen!",
+        "chooseFromListTitle":"Onjuist ID",
+        "chooseFromListDescription":"Kies een van de id's hier onder:",
+        "boterror":"Bot Error!",
+        "notInTicketTitle":"Je bent niet in een ticket!",
+        "notInTicketDescription":"Deze command werkt niet buiten tickets!",
+        "ticketDoesntExist":"Dit ticket bestaat niet meer!",
+        "roleDoesntExist":"Deze rol bestaat niet meer!",
+        "anotherOption":"Deze optie is niet een ticket, maar een ander type!",
+        "maxAmountTitle":"Maximum numer bereikt!",
+        "maxAmountDescription":"Je hebt het maximum aantal openstaande tickets bereikt!\nDus je kan geen nieuwe meer maken!",
+        "somethingWentWrong":"**Iets ging fout!**\nProbeer een andere keer opnieuw!",
+        "somethingWentWrongTranscript":"Iets ging fout terwijl het transcript gemaakt werd!**\nProbeer een andere keer opnieuw!"
+    },
+    "commands":{
+        "userAddedTitle":"{0} is toegevoegd aan dit ticket!",
+        "userRemovedTitle":"{0} is verwijderd van dit ticket!",
+        "renameTitle":"De naam is veranderd naar {0}!",
+        "closeTitle":"Ticket gesloten!",
+        "deleteTitle":"Ticket aan het verwijderen...",
+        "reopenTitle":"Ticket heropend!",
+        "claimTitle":"This ticket is now claimed to {0}",
+        "unclaimTitle":"This ticket isn't claimed anymore!",
+
+        "ticketWarning":"De embed is in het bericht hier onder!",
+        "maxTicketWarning":"**Waarschuwing:** _Je kan maar {0} ticket(s) tegelijkertijd maken!_"
+    },
+    "helpMenu":{
+        "title":"Beschikbare Commands:",
+        "header1":"**Ga naar {0} om een ticket te maken!**\n\n",
+        "header2":"**Run de command `/new` of `/ticket` om een ticket te maken!**\n\n",
+
+        "msgCmd":"Spawn een embed met knoppen. (alleen admins)",
+        "renameCmd":"Hernoem een ticket. (geen spaties)",
+        "closeCmd":"Sluit een ticket.",
+        "deleteCmd":"Verijder een ticket.",
+        "addCmd":"Voeg een user aan een ticket.",
+        "removeCmd":"Verwijder een user van een ticket.",
+        "reopenCmd":"Heropen een ticket nadat het gesloten is."
+    },
+    "buttons":{
+        "close":"Sluit Ticket",
+        "delete":"Verwijder Ticket",
+        "reopen":"Heropen Ticket",
+        "sendTranscript":"Transcript",
+        "closeWithReason":"sluit met reden"
+    },
+    "messages":{
+        "reopenTitle":"Ticket heropend!",
+        "reopenDescription":"Voel vrij om weer te praten!",
+        "closedTitle":"Ticket gesloten!",
+        "closedDescription":"Alleen admins kunnen nog praten.\n\n*Klik op de knoppen hieronder voor meer acties!*",
+        "createdTitle":"Ticket Aangemaakt!",
+        "createdDescription":"U ticket is gemaakt, je kan het detecteren bij een ping!",
+
+        "newTicketDmTitle":"Nieuw Ticket!",
+        "closedTicketDmTitle":"Ticket Gesloten!",
+        "deletedTicketDmTitle":"Ticket Verwijderd!",
+        "closedTicketDmDescription":"Je ticket is gesloten!",
+        "deletedTicketDmDescription":"Je ticket is verwijderd!",
+        "reopenTicketDmTitle":"Ticket Heropend!",
+        "reopenTicketDmDescription":"Je ticket is heropend!",
+        "newTranscriptTitle":"Er is een nieuw transcript!",
+        "hereIsTheTranscript":"Hier is het transcript:",
+
+        "chooseCategory":"kies een categorie:",
+        "gettingdeleted":"Ticket wordt verwijderd...",
+
+        "none":"geen",
+        "reason":"reden",
+
+        "deletedby":"verwijderd door",
+        "closedby":"gesloten door",
+        "modalreason":"Wat is de reden om dit ticket te sluiten?",
+        "chooseATicket": "Kies een ticket"
+    }
+}

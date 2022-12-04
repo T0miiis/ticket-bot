@@ -1,0 +1,83 @@
+{
+    "errors":{
+        "missingArgsTitle":"Argumente Invalide",
+        "missingArgsDescription":"Argument Lipsa",
+        "noPermsTitle":"Nu ai permisiunea necesara!",
+        "noPermsDescription":"Ai nevoie de permisiunea de `ADMINISTRATOR`!",
+        "noPermsDelete":"Doar adminii pot inchide un ticket!",
+        "chooseFromListTitle":"Invalid ID",
+        "chooseFromListDescription":"Alege unul dintre id-urile urmatoare:",
+        "boterror":"Eroare bot!",
+        "notInTicketTitle":"Nu esti intr-un ticket!",
+        "notInTicketDescription":"Aceasta comanda nu merge inafara unui ticket!",
+        "ticketDoesntExist":"Acest ticket nu mai exista!",
+        "roleDoesntExist":"Acest rol nu mai exista!",
+        "anotherOption":"Aceasta optiune este altceva decat un tip de ticket!",
+        "maxAmountTitle":"Limita atinsa!",
+        "maxAmountDescription":"Ai atins limita de tickets!\nAsa ca nu mai poti creea altele noi!",
+        "somethingWentWrong":"**Ceva nu a mers bine!**\nTe rugam sa incerci mai tarziu!",
+        "somethingWentWrongTranscript":"Ceva nu aa mers bine in timpul creeari transcript-ului!**\nTe rugam sa incerci mai tarziu!"
+    },
+    "commands":{
+        "userAddedTitle":"{0} a fost adaugat in acest ticket!",
+        "userRemovedTitle":"{0} a fost scos din acest ticket!",
+        "renameTitle":"Nume schimbat in {0}!",
+        "closeTitle":"Ticket inchis!",
+        "deleteTitle":"Se sterge ticket-ul...",
+        "reopenTitle":"Ticket Re-deschis!",
+        "claimTitle":"This ticket is now claimed to {0}",
+        "unclaimTitle":"This ticket isn't claimed anymore!",
+
+        "ticketWarning":"Embed-ul se afla in mesajul de mai jos!",
+        "maxTicketWarning":"**Avertizare:** _Poti creea doar {0} tickete active!_"
+    },
+    "helpMenu":{
+        "title":"Comenzi disponibile:",
+        "header1":"**Mergi la {0} pentru a creea un ticket!**\n\n",
+        "header2":"**Ruleaza comanda `/new` ori `/ticket` pentru a creea un ticket!**\n\n",
+
+        "msgCmd":"Trimite embed-ul cu tickete. (doar admini)",
+        "renameCmd":"Redenumeste un ticket. (fara spatii)",
+        "closeCmd":"Inchide un ticket.",
+        "deleteCmd":"Sterge un ticket.",
+        "addCmd":"Adauga un utilizator in ticket.",
+        "removeCmd":"Sterge un utilizator din ticket.",
+        "reopenCmd":"Re-deschide un ticket dupa ce a fost deschis."
+    },
+    "buttons":{
+        "close":"Inchide ticket-ul",
+        "delete":"Sterge ticket-ul",
+        "reopen":"Re-deschide un ticket",
+        "sendTranscript":"Transcript",
+        "closeWithReason":"Inchide cu motiv"
+    },
+    "messages":{
+        "reopenTitle":"Ticket Re-deschis!",
+        "reopenDescription":"Poti vorbi din nou!",
+        "closedTitle":"Ticket inchis!",
+        "closedDescription":"Doar adminii pot vorbi in acest ticket acum!\n\n*Apasa pe butonul de mai jos pentru a re-deschide ori sterge ticket-ul!*",
+        "createdTitle":"Ticket Creat!",
+        "createdDescription":"Ticket-ul tau a fost creat, poti sa il vezi in canalul pe care ai fost mentionat!",
+
+        "newTicketDmTitle":"Ticket nou!",
+        "closedTicketDmTitle":"Ticket Inchis!",
+        "deletedTicketDmTitle":"Ticket Sters!",
+        "closedTicketDmDescription":"Ticket-ul tau este inchis!",
+        "deletedTicketDmDescription":"Ticket-ul tau este sters!",
+        "reopenTicketDmTitle":"Ticket Re-deschis!",
+        "reopenTicketDmDescription":"Ticket-ul tau este re-deschis!",
+        "newTranscriptTitle":"Un nou transcript este aici!",
+        "hereIsTheTranscript":"Aici este transcriptul:",
+
+        "chooseCategory":"Alege o categorie:",
+        "gettingdeleted":"Ticket-ul se sterge...",
+
+        "none":"niciunul",
+        "reason":"Motiv",
+
+        "deletedby":"Sters de",
+        "closedby":"Inchis de",
+        "modalreason":"Care este motivul pentru inchiderea acestui ticket?",
+        "chooseATicket": "Alege un ticket"
+    }
+}

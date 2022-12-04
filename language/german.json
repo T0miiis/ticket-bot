@@ -1,0 +1,83 @@
+{
+    "errors":{
+        "missingArgsTitle":"Ungültiges Argument!",
+        "missingArgsDescription":"Fehlendes Argument!",
+        "noPermsTitle":"Du hast keine Rechte!",
+        "noPermsDescription":"You need the `ADMINISTRATOR` permission or be in the list of allowed roles!",
+        "noPermsDelete":"Only admins can delete a ticket!",
+        "chooseFromListTitle":"Ungültige ID",
+        "chooseFromListDescription":"Wählen Sie eine der folgenden ID:",
+        "boterror":"Bot Fehler!",
+        "notInTicketTitle":"Du bist ein kein Ticket!",
+        "notInTicketDescription":"Der Befehl funktioniert nicht außerhalb eines Tickets!",
+        "ticketDoesntExist":"Das Ticket Exisitert nicht mehr!",
+        "roleDoesntExist":"Die Rolle Exisitiert nicht mehr!",
+        "anotherOption":"Diese Option ist kein Ticket, sondern eine andere Art!",
+        "maxAmountTitle":"Das Limit wurde erreicht!",
+        "maxAmountDescription":"Sie haben die maximal zulässige Anzahl von Tickets erreicht!\nSie können also keine neue erstellen.!",
+        "somethingWentWrong":"**Etwas ist schief gelaufen!**\nBitte versuchen Sie es ein anderes Mal!",
+        "somethingWentWrongTranscript":"Bei der Erstellung der Transcript ist etwas schief gelaufen!**\nBitte versuchen Sie es ein anderes Mal!"
+    },
+    "commands":{
+        "userAddedTitle":"Added {0} to this ticket!",
+        "userRemovedTitle":"Removed {0} from this ticket!",
+        "renameTitle":"Changed the name to {0}!",
+        "closeTitle":"Closed this ticket!",
+        "deleteTitle":"Deleting this ticket...",
+        "reopenTitle":"Re-Opened this ticket!",
+        "claimTitle":"This ticket is now claimed to {0}",
+        "unclaimTitle":"This ticket isn't claimed anymore!",
+
+        "ticketWarning":"The embed is in the message below!",
+        "maxTicketWarning":"**Warning:** _You can only create {0} ticket(s) at a time!_"
+    },
+    "helpMenu":{
+        "title":"Available Commands:",
+        "header1":"**Gehe zu {0} um ein Ticket zu erstellen!**\n\n",
+        "header2":"**Führen Sie den Befehl `/new` oder `/ticket` um ein Ticket zu erstellen!**\n\n",
+
+        "msgCmd":"Eine Einbettung mit Schaltflächen erzeugen. (nur admins)",
+        "renameCmd":"Ein Ticket umbenennen. (keine Leerzeichen)",
+        "closeCmd":"Schließen Sie ein Ticket.",
+        "deleteCmd":"Ein Ticket löschen.",
+        "addCmd":"Fügen Sie dem Ticket einen Benutzer hinzu.",
+        "removeCmd":"Entfernen eines Benutzers aus dem Ticket.",
+        "reopenCmd":"Öffnen Sie ein Ticket erneut, nachdem es geschlossen wurde."
+    },
+    "buttons":{
+        "close":"Ticket schließen",
+        "delete":"Ticket löschen",
+        "reopen":"Ticket wieder öffnen",
+        "sendTranscript":"Transcript-Datei senden",
+        "closeWithReason":"Geschlossen mit dem Grund"
+    },
+    "messages":{
+        "reopenTitle":"Dieses Ticket wiedereröffnet!",
+        "reopenDescription":"Sie können gerne weiterreden!",
+        "closedTitle":"Dieses Ticket geschlossen!",
+        "closedDescription":"Nur Admins können jetzt in diesem Ticket sprechen!\n\n*Klicken Sie auf die Schaltfläche unten, um dieses Ticket zu löschen oder erneut zu öffnen!*",
+        "createdTitle":"Ticket erstellt!",
+        "createdDescription":"Ihr Ticket ist erstellt, Sie können es durch einen Ping erkennen!",
+
+        "newTicketDmTitle":"Neues Ticket!",
+        "closedTicketDmTitle":"Ticket schließen!",
+        "deletedTicketDmTitle":"Ticket löschen!",
+        "closedTicketDmDescription":"Ihr Ticket ist geschlossen!",
+        "deletedTicketDmDescription":"Ihr Ticket ist gelöscht!",
+        "reopenTicketDmTitle":"Ticket neu Eröffnen!",
+        "reopenTicketDmDescription":"Dein Ticket ist Neu eröffnet!",
+        "newTranscriptTitle":"Eine neue Transscript finden Sie hier!",
+        "hereIsTheTranscript":"Hier ist das Transscript:",
+
+        "chooseCategory":"Wähle eine Kategorie:",
+        "gettingdeleted":"Ticket wird gelöscht...",
+
+        "none":"none",
+        "reason":"reason",
+
+        "deletedby":"Gelöscht von",
+        "closedby":"Geschlossen von",
+        "modalreason":"Was ist der Grund für das schließen des Tickets?",
+        "chooseATicket": "Wähle ein Ticket"
+    }
+}

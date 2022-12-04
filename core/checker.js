@@ -1,0 +1,463 @@
+exports.checker = async () => {
+    const chalk = await (await import("chalk")).default
+
+    if (process.argv.some((v) => v == "--nochecker")) return 
+    if (process.argv.some((v) => v == "--devconfig")){
+        //console.log(chalk.blue("=> used dev config instead of normal config"))
+        try{
+            var tempconfig = require("../devConfig.json")
+        }catch(err){console.log(err);var tempconfig = require("../config.json")}
+    }else{
+        var tempconfig = require("../config.json")
+    }
+
+    const config = tempconfig
+    var errorList = []
+    var isError = false
+    var warnList = []
+    var isWarn = false
+    const createError = (message) => {
+        isError = true
+        errorList.push("open-ticket CONFIG ERROR: "+message)
+    }
+    const createWarn = (message) => {
+        isWarn = true
+        warnList.push("open-ticket CONFIG WARNING: "+message)
+    }
+
+    //validators
+    /**@param {"userid"|"roleid"|"channelid"|"serverid"|"categoryid"} mode @param {String} value @param {String} path */
+    const checkDiscord = (mode,value,path) => {
+        if (mode == "userid"){
+            if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                createError("'"+path+"' | this user id is invalid")
+            }
+        }else if (mode == "channelid"){
+            if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                createError("'"+path+"' | this channel id is invalid")
+            }
+        }else if (mode == "roleid"){    
+            if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                createError("'"+path+"' | this role id is invalid")
+            }
+        }else if (mode == "serverid"){
+            if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                createError("'"+path+"' | this server id is invalid")
+            }
+        }else if (mode == "categoryid"){
+            if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                createError("'"+path+"' | this category id is invalid")
+            }
+        }
+    }
+    /**@param {String} value */
+    const checkToken = (value) => {
+        if (value.length < 40){
+            createError("'auth_token' | your token is invalid")
+        }
+        if (value.includes(" ")) createError("'auth_token' | your token includes spaces!")
+    }
+
+    /**@param {String} value @param {String} path */
+    const checkHexColor = (value,path) => {
+        if (!/^#[a-fA-F0-9]{3,6}$/.test(value)){
+            if (value.length < 4) return createError("'"+path+"' | hex color too short! (example: #123abc)")
+            if (value.length > 7) return createError("'"+path+"' | hex color too long! (example: #123abc)")
+            createError("'"+path+"' | invalid color! (example: #123abc)")
+        }
+    }
+
+    /**@param {String} value @param {String} path */
+    const checkEmbedColor = (value,path) => {
+        if (!['DEFAULT','WHITE','AQUA','GREEN','BLUE','YELLOW','PURPLE','LUMINOUS_VIVID_PINK','FUCHSIA','GOLD','ORANGE','RED','GREY','DARKER_GREY','NAVY','DARK_AQUA','DARK_GREEN','DARK_BLUE','DARK_PURPLE','DARK_VIVID_PINK','DARK_GOLD','DARK_ORANGE','DARK_RED','DARK_GREY','LIGHT_GREY','DARK_NAVY','BLURPLE','GREYPLE','DARK_BUT_NOT_BLACK','NOT_QUITE_BLACK','RANDOM'].includes(value)){
+            return createError("'"+path+"' | invalid color, must be a hex code or default color (more info in the wiki)")
+        }
+    }
+
+    /**@param {String} value @param {String} path @param {Number} minLength @param {Number} maxLength @param {String} name */
+    const checkString = (value,minLength,maxLength,path,name) => {
+        if (value.length < minLength){
+            createError("'"+path+"' | "+name+" is too short!")
+        }else if (value.length > maxLength){
+            createError("'"+path+"' | "+name+" is too long!")
+        }
+    }
+
+    /**@param {"userid"|"roleid"|"channelid"|"serverid"} mode @param {String[]} arrayValue @param {String} path */
+    const checkDiscordArray = (mode,arrayValue,path) => {
+        if (mode == "userid"){
+            arrayValue.forEach((value,index) => {
+                if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                    createError("'"+path+":"+index+"' | this user id is invalid")
+                }
+            })
+        }else if (mode == "channelid"){
+            arrayValue.forEach((value,index) => {
+                if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                    createError("'"+path+":"+index+"' | this channel id is invalid")
+                }
+            })
+        }else if (mode == "roleid"){
+            arrayValue.forEach((value,index) => {
+                if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                    createError("'"+path+":"+index+"' | this role id is invalid")
+                }
+            })
+        }else if (mode == "serverid"){
+            arrayValue.forEach((value,index) => {
+                if (value.length < 16 || value.length > 20 || !/^\d+$/.test(value)){
+                    createError("'"+path+":"+index+"' | this server id is invalid")
+                }
+            })
+        }
+    }
+    /**@param {String} value @param {"string"|"boolean"|"number"} type */
+    const checkType = (value,type,path) => {
+        if (type == "boolean"){
+            if (typeof value != "boolean"){
+                createError("'"+path+"' | invalid type, this must be a boolean!")
+            }
+        }else if (type == "number"){
+            if (typeof value != "number"){
+                createError("'"+path+"' | invalid type, this must be a number!")
+            }
+        }else if (type == "string"){
+            if (typeof value != "string"){
+                createError("'"+path+"' | invalid type, this must be a string!")
+            }
+        }
+    }
+
+    const checkButtonColor = (value,path) => {
+        if (value != "none" && value != "grey" && value != "gray" && value != "black" && value != "red" && value != "green" && value != "blue" && value != "blurple"){
+            createError("'"+path+"' | invalid color, it must be one of these: none, gray, red, green, blue!")
+        }
+    }
+
+    const configParser = require("./utils/configParser")
+    /**
+     * @param {configParser.OTAllOptions} option
+     * @param {String} path
+     */
+
+    const checkOption = (option,path) => {
+
+        //id
+        checkType(option.id,"string",path+"/id")
+        if (option.id.includes(" ")){
+            createError("'"+path+"/id' | option id can't contain space characters!")
+        }
+        if (option.id.length > 20){
+            createError("'"+path+"/id' | option id max lenght is 20!")
+        }
+        
+        //name
+        checkType(option.name,"string",path+"/name")
+        if (option.name.length > 100){
+            createWarn("'"+path+"/name' | if your name is too long it maybe doesn't look so good!")
+        }else if (option.name.length < 1){
+            createError("'"+path+"/name' | there is no name!")
+        }
+
+        //description
+        checkType(option.description,"string",path+"/description")
+
+        //icon
+        const emojiRegex = /(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/gi;
+        if (option.icon.length > 0){
+
+            const isEmoji = emojiRegex.test(option.icon)
+
+            if (isEmoji == false){
+                createError("'"+path+"/icon' | invalid emoji or custom discord emoji")
+            }
+        }
+        checkType(option.icon,"string",path+"/icon")
+
+        //label
+        checkType(option.label,"string",path+"/label")
+        if (option.label.length < 1 && option.icon.length < 1){
+            createError("'"+path+"' | you need at least one of these: label, icon!")
+        }
+
+        //type
+        checkType(option.type,"string",path+"/type")
+        if (option.type != "ticket" && option.type != "website" && option.type != "role"){
+            createError("'"+path+"/type' | the type must be one of these: ticket, website, role!")
+        }
+        /**@type {"ticket"|"website"|"role"} */
+        const type = option.type
+
+        if (type == "ticket"){
+            //color
+            checkType(option.color,"string",path+"/color")
+            checkButtonColor(option.color,path+"/color")
+
+            //adminroles
+            checkDiscordArray("roleid",option.adminroles,path+"/adminroles")
+            
+            //channelprefix
+            checkType(option.channelprefix,"string",path+"/channelprefix")
+            if (option.channelprefix.includes(" ")){
+                createWarn("'"+path+"/channelprefix' | this prefix can't contain spaces!")
+            }
+
+            //category
+            checkType(option.category,"string",path+"/category")
+            if (option.category.length > 0){
+                checkDiscord("categoryid",option.category,path+"/category")
+            }
+
+            //message
+            checkType(option.message,"string",path+"/message")
+
+            //enableDmOnOpen
+            checkType(option.enableDmOnOpen,"boolean",path+"/enableDmOnOpen")
+
+            //ticketmessage
+            checkType(option.ticketmessage,"string",path+"/ticketmessage")
+
+            //thumbnail
+            checkType(option.thumbnail.enable,"boolean",path/"/thumbnail/enable")
+            checkType(option.thumbnail.url,"string",path/"/thumbnail/url")
+
+            //closedCategory
+            checkType(option.closedCategory.enable,"boolean",path/"/closedCategory/enable")
+            checkType(option.closedCategory.id,"string",path/"/closedCategory/id")
+            if (option.closedCategory.enable){
+                checkDiscord("roleid",option.closedCategory.id,path+"/closedCategory/id")
+            }
+
+        }else if (type == "website"){
+            //url
+            checkType(option.url,"string",path+"/url")
+            if (option.url.includes(" ")){
+                createWarn("'"+path+"/url' | a url can't contain spaces")
+            }
+            if (option.url.length < 1){
+                createError("'"+path+"/url' | there is no url!")
+            }
+            if (!option.url.startsWith("https://") && !option.url.startsWith("http://") && !option.url.startsWith("discord://")){
+                createWarn("'"+path+"/url' | your url doesn't start with https or http!")
+            }
+            if (option.url.startsWith("http://")){
+                createWarn("'"+path+"/url' | your url is not a HTTPS link! discord can block this url!")
+            }
+        }else if (type == "role"){
+            //color
+            checkType(option.color,"string",path+"/color")
+            checkButtonColor(option.color,path+"/color")
+
+            //roles
+            checkDiscordArray("roleid",option.roles,path+"/roles")
+
+            //mode
+            checkType(option.mode,"string",path+"/mode")
+            if (option.mode != "add&remove" && option.mode != "add" && option.mode != "remove"){
+                createError("'"+path+"/mode' | mode must be one of these: add, remove, add&remove")
+            }
+
+            //enableDmOnOpen
+            checkType(option.enableDmOnOpen,"boolean",path+"/enableDmOnOpen")
+        }
+    }
+
+    /**
+     * 
+     * @param {configParser.OTConfigMessage} input 
+     * @param {String} path 
+     */
+    const checkMessage = (input,path) => {
+        //id
+        if (!input.id) createError("'"+path+"/id' | this embed doesn't have an id!")
+        if (input.id.length > 50) createError("'"+path+"/id' | the id can't be longer than 50")
+        if (input.id.includes(" ") || input.id.includes("\n")) createError("'"+path+"/id' | the id can't contain spaces!")
+
+        //name
+        if (input.name.length < 1){
+            createWarn("'"+path+"/name' | this embed has no name!")
+        }else if (input.name.length > 99) {
+            createError("'"+path+"/name' | the name can't be longer than 100")
+        }
+
+        //description
+        if (input.description.length < 0){
+            createWarn("'"+path+"/description' | this embed doesn't have a description!")
+        }
+
+        //dropdown
+        checkType(input.dropdown,"boolean",path+"/dropdown")
+
+        //footer
+        checkType(input.enableFooter,"boolean",path+"/enableFooter")
+        if (input.enableFooter){
+            if (input.footer.length < 1) createError("'"+path+"/footer' | no footer!")
+            if (input.footer.length > 200) createError("'"+path+"/footer' | footer length can't be more than 200!")
+        }
+
+        //thumbnail
+        checkType(input.enableThumbnail,"boolean",path+"/enableThumbnail")
+        if (input.enableThumbnail){
+            if (input.thumbnail.length < 1) createError("'"+path+"/thumbnail' | no thumbnail url!")
+        }
+
+        //customColor
+        checkType(input.enableCustomColor,"boolean",path+"/enableCustomColor")
+        if (input.enableCustomColor){
+            if (input.color.length < 1) createError("'"+path+"/color' | no color!")
+            checkHexColor(input.color,path+"/color")
+        }
+
+        //ticket explaination & max tickets warning
+        checkType(input.enableTicketExplaination,"boolean",path+"/enableTicketExplaination")
+        checkType(input.enableMaxTicketsWarning,"boolean",path+"/enableMaxTicketsWarning")
+
+        //OPTIONS!!!
+        var counter = 0
+        input.options.forEach((option) => {if (!configParser.optionExists(option)){counter++}})
+
+        if (counter == input.options.length){
+            createWarn("'"+path+"/options' | insert the option ids here!")
+        }else{
+            input.options.forEach((option,index) => {
+                if (!configParser.optionExists(option)){
+                    createWarn("'"+path+"/options:"+index+"' | this option doesnt exist!")
+                }
+            })
+        }
+    }
+
+    //--------------------------|
+    //--------------------------|
+    //checker => START HERE     |
+    //--------------------------|
+    //--------------------------|
+
+    var configArray = ["main_color","server_id","auth_token","main_adminroles","prefix","languagefile","credits","status","system","options","messages"]
+    configArray.forEach((item) => {
+        if (config[item] == undefined){
+            throw new Error("\n\nMAIN ERROR: the item '"+item+"' doesn't exist in config.json")
+        }
+    })
+    
+    checkHexColor(config.main_color,"main_color")
+    checkDiscord("serverid",config.server_id,"server_id")
+
+    if (!require("./api/api.json").disable.checkerjs.token) checkToken(config.auth_token)
+
+    checkDiscordArray("roleid",config.main_adminroles,"main_adminroles")
+    checkString(config.prefix,1,15,"prefix","prefix")
+    //languagefile
+    checkType(config.languagefile,"string","languagefile")
+    const lf = config.languagefile
+    
+    if (!lf.startsWith("custom") && !lf.startsWith("english") && !lf.startsWith("dutch") && !lf.startsWith("romanian") && !lf.startsWith("german") && !lf.startsWith("arabic") && !lf.startsWith("spanish") && !lf.startsWith("portuguese") && !lf.startsWith("french") && !lf.startsWith("italian")){
+        createError("'languagefile' | invalid language, more info in the wiki")
+    }
+
+    checkType(config.credits,"boolean","credits")
+    //status:
+        checkType(config.status.enabled,"boolean","status/enabled")
+        if (config.status.enabled){
+            if (config.status.type != "PLAYING" && config.status.type != "LISTENING" && config.status.type != "WATCHING"){
+                createError("'status/type' | not a valid status type! (LISTENING,WATCHING,PLAYING)")
+            }
+            if (config.status.text.length < 1){
+                createError("'status/text' | there is no status text!")
+            }
+            if (config.status.text.length > 50) createError("'status/text' | text too long!")
+        }
+
+    
+    //system:
+        if (config.system.ticket_channel){
+            if (config.system.ticket_channel.length < 16 || config.system.ticket_channel.length > 20 || !/^\d+$/.test(config.system.ticket_channel)){
+                createError("'system/ticket_channel' | this channel id is invalid")
+            }
+        }else createWarn("'"+path+"' | you have no ticket channel selected!")
+        checkType(config.system.max_allowed_tickets,"number","system/max_allowed_tickets")
+        checkType(config.system.enable_DM_Messages,"boolean","system/enable_DM_Messages")
+        checkType(config.system["has@everyoneaccess"],"boolean","system/has@everyoneaccess")
+        if (config.system.member_role != "" && config.system.member_role != " " && config.system.member_role != "false" && config.system.member_role != "null" && config.system.member_role != "0"){
+            checkDiscord("roleid",config.system.member_role,"system/member_role")
+        }else{
+            createWarn("'system/member_role' | You don't have a member role, but it's recommended!")
+        }
+        checkType(config.system.closeMode,"string","system/closeMode")
+        if (!["normal","adminonly"].includes(config.system.closeMode)){
+            createError("'system/closeMode' | the close mode must be adminonly or normal")
+        }
+
+        checkType(config.system.enable_transcript,"boolean","system/enable_transcript")
+        checkType(config.system.enable_DM_transcript,"boolean","system/enable_DM_transcript")
+        if (config.system.enable_transcript){
+            checkDiscord("channelid",config.system.transcript_channel,"system/transcript_channel")
+        }
+        checkType(config.system.showSlashcmdsInHelp,"boolean","system/showSlashcmdsInHelp")
+
+    //options
+
+    config.options.forEach((option,index) => {
+        checkOption(option,"options/"+index)
+    })
+
+    //messages
+    config.messages.forEach((message,index) => {
+        checkMessage(message,"messages/"+index)
+    })
+
+
+    //discord check
+    /**
+    const discord = require("discord.js")
+    const {GatewayIntentBits,Partials} = discord
+    const client = new discord.Client({
+        intents:[
+            GatewayIntentBits.DirectMessages,
+            GatewayIntentBits.GuildInvites,
+            GatewayIntentBits.GuildMembers,
+            GatewayIntentBits.GuildMessages,
+            GatewayIntentBits.Guilds,
+            GatewayIntentBits.MessageContent
+        ],
+        partials:[Partials.Channel,Partials.Message]
+    })
+    await client.guilds.fetch()
+    if (!client.guilds.cache.find(g => g.id == config.server_id)){
+        createError("'server_id' | i'm not in a server with this id!")
+    }
+    */
+
+    
+
+    //the end
+    if (errorList.length > 0 || warnList.length > 0){
+        console.log("REPORT:\n===========================")
+    }
+    warnList.forEach((w) => {
+        const splitw = w.split("'")
+        if (splitw.length > 1){
+            var splitstring = chalk.yellow(splitw[0])+chalk.blue("'"+splitw[1]+"'")+chalk.yellow(splitw[2])
+        }else {var splitstring = chalk.yellow(splitw[0])}
+        console.log(splitstring)
+    })
+    errorList.forEach((e) => {
+        const splite = e.split("'")
+        if (splite.length > 1){
+            var splitstring = chalk.red(splite[0])+chalk.blue("'"+splite[1]+"'")+chalk.red(splite[2])
+        }else {var splitstring = chalk.red(splite[0])}
+        console.log(splitstring)
+    })
+    if (isError){
+        console.log("===========================")
+        console.log("=> "+chalk.bgRed("your bot doesn't work if you don't fix the above errors!"))
+        if (isWarn){
+            console.log("\n=> "+chalk.bgYellow("if you ignore warns, some things may work differently than expected!"))
+        }
+        process.exit(0)
+    }else if (isWarn == true && isError == false){
+        console.log("===========================")
+        console.log("=> "+chalk.bgYellow("if you ignore warns, some things may work differently than expected!"))
+    }
+
+}
